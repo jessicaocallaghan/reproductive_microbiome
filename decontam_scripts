@@ -1,0 +1,19 @@
+## decontam scripts for use with the ASV table from QIIME2
+
+# Input the ASV matrix with samples verus ASVs
+data <- read.csv("data.csv")
+
+# The sample data is uploaded. The samples are the same as input for QIIME2 with an extra column to describe the samples are either Control or Sample.  
+sample_data <- read.delim("sample-metadata.txt")
+
+# Tell the program that the variable is.neg corresponds to the columns in the data that the Control samples are the negative
+is.neg <- sample_data$Sample_or_Control == "Control"
+
+# The input data is not a matrix it is a a dataframe therefore it needs to be converted.
+datamatrix <- data.matrix(data, rownames.force = NA)
+
+# The program suggested for low biomass samples to assume every ASVs is a contaminant and to idenitiy if that is false.
+output_contamin <- isContaminant(datamatrix, neg = is.neg, method = "prevalence", threshold = 0.5, normalize = TRUE, detailed = TRUE)
+
+# To export the list of ASVs to a CSV file
+write.csv(output_theis_contamin, file = "output_contam.csv")
