@@ -1,0 +1,9 @@
+## Heatmap figure
+
+library(ggpplot2)
+data <- read.csv("taxons_ASVs_insample.csv")
+met <- melt(data)
+p <- ggplot(met, aes(x=variable, y=X, fill=value))
+pdf("taxons_ASVs_insample.pdf")
+p + geom_tile() + scale_fill_gradient(low = "white", high = "steelblue")
+dev.off()
