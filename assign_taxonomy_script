@@ -1,0 +1,9 @@
+# From the list that decontam are suggesting are contaminants, pull the sequences from the original dna-sequences.fasta from the QIIME2 output
+Save the ASV identifers in a list called real_sequences.txt
+./faSomeRecords dna-sequences.fasta real_sequences.txt real_sequences.fa
+
+# Assign taxonomy to the sequences that are considered the contaminants
+library(dada2)
+seqs <- "real_sequences.fa"
+taxa <- assignTaxonomy(seqs, "RefSeq-RDP16S_v2_May2018.fa.gz", multithread=TRUE)
+write.csv(taxa, "real_species_with_taxon.csv")
