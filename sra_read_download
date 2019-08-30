@@ -1,0 +1,5 @@
+# download the reads from the SRA database
+
+fastq-dump -I --split-files SRRXXXXXXXXXX
+
+#Script uses the SRR asscesion numbers from the NCBI database and splits them into forward and reverse raw reads
