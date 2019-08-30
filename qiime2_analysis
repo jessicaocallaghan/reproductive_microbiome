@@ -1,0 +1,36 @@
+## qiime2 analysis
+
+# QIIME2 import data
+qiime tools import \
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path pe-33-manifest.csv \
+  --output-path paired-end-demux.qza \
+  --input-format PairedEndFastqManifestPhred33
+  
+# QC data
+qiime demux summarize \
+  --i-data paired-end-demux.qza \
+  --o-visualization demux.qzv
+  
+# DADA2 denoising, quality metrics changed based on previous output from data
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs paired-end-demux.qza \
+  --p-trim-left-f 0 \
+  --p-trim-left-r 0 \
+  --p-trunc-len-f 250 \
+  --p-trunc-len-r 250 \
+  --o-table table.qza \
+  --o-representative-sequences rep-seqs.qza \
+  --o-denoising-stats denoising-stats.qza
+  
+# Output table for biom table and output rep-seqs for the dna-sequences.fa
+qiime tools export \
+  --input-path table.qza \
+  --output-path table-dada2
+  
+qiime tools export \
+  --input-path rep-seqs.qza \
+  --output-path rep-seqs-dada2
+  
+# Convert table-dada2 to txt for use in decontam
+biom convert -i table.biom -o table.from_biom.txt --to-tsv
