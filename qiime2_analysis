@@ -34,3 +34,34 @@ qiime tools export \
   
 # Convert table-dada2 to txt for use in decontam
 biom convert -i table.biom -o table.from_biom.txt --to-tsv
+
+# Get real sequences from original dna-sequences.fasta
+./faSomeRecords dna-sequences.fasta real_sequences_identifiers.txt real_sequences.fa
+
+# Import biom table and dna sequences back
+qiime tools import \
+  --input-path table.from_txt_json.biom \
+  --type 'FeatureTable[Frequency]' \
+  --input-format BIOMV100Format \
+  --output-path featuretable.qza
+  
+qiime tools import \
+  --input-path real_sequences.fa \
+  --output-path sequences.qza \
+  --type 'FeatureData[Sequence]'
+
+# Create a rooted tree 
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences sequences.qza \
+  --o-alignment aligned-rep-seqs.qza \
+  --o-masked-alignment masked-aligned-rep-seqs.qza \
+  --o-tree unrooted-tree.qza \
+  --o-rooted-tree rooted-tree.qza
+
+# Alpha and beta analysis
+qiime diversity core-metrics-phylogenetic \
+  --i-phylogeny rooted-tree.qza \
+  --i-table featuretable.qza \
+  --p-sampling-depth 500 \
+  --m-metadata-file sample-data.txt \
+  --output-dir core-metrics-results

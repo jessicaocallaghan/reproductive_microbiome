@@ -1,0 +1,10 @@
+## mircodecon analysis 
+
+# Input the ASV matrix with samples verus ASVs (blank/negative control samples are the initial samples in the CSV followed by the placenta/human microbiome samples)
+data <- read.csv("data.csv")
+
+# run the microdecon script with the number of blanks and samples. The taxa is false as the taxonomic classification information is not present in this file. For example, in this order, for the Leiby reanalysis using this program, there were 110 blanks (water samples and air swabs), 40 vaginal samples, 80 maternal saliva samples, 80 maternal placental samples and 80 fetal placental samples
+decontaminated <- decon(data = data,numb.blanks=110,numb.ind=c(40,80,80,80),taxa=F)
+
+# Exported the microdecon table with the average blank and samples with removed contamination
+write.csv(decontaminated$decon.table, file = "output_decontaminated.csv")

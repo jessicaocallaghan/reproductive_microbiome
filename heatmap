@@ -1,9 +1,17 @@
 ## Heatmap figure
 
-library(ggpplot2)
+# load libraries
+library(ggplot2)
+library(reshape)
+library(Rmisc)
+
+#read in data and data clean
 data <- read.csv("taxons_ASVs_insample.csv")
-met <- melt(data)
-p <- ggplot(met, aes(x=variable, y=X, fill=value))
+melt <- melt(data)
+tgc2 <- summarySE(melt, measurevar="value", groupvars=c("X", "variable"))
+
+p <- ggplot(tgc2, aes(x=variable, y=X, fill=value))
 pdf("taxons_ASVs_insample.pdf")
 p + geom_tile() + scale_fill_gradient(low = "white", high = "steelblue")
 dev.off()
+

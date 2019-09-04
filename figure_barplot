@@ -2,18 +2,10 @@
 
 # These reads were used with the count of summary from the ASV output to create the bar plot. 
 
-# Example output
+# Example
 
 data <- read.csv("data.csv")
 head(data)
-
-Samplename	raw_Sequences_count	asv_count	group
-10AC	    50537	            12633		amnion/chorion
-10V			58919				25210		villus
-11AC		89646				343			amnion/chorion
-11V			3669				26			villus
-12AC		66933				38908		amnion/chorion
-12V			72550				14983		villus
 
 library(reshape)
 library(ggplot2)
@@ -25,7 +17,7 @@ melt <- melt(data)
 tgc <- summarySE(melt, measurevar="value", groupvars=c("group"))
 
 # Make figure
-pdf("count.pdf")
+pdf("read_asv_count.pdf")
 ggplot(tgc, aes(x=group, y=value)) + geom_bar(position=position_dodge(), stat="identity") + geom_errorbar(aes(ymin=value-se, ymax=value+se),  width=.2, position=position_dodge(.9))ax=value+se)
 dev.off()
 
