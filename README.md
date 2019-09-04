@@ -19,9 +19,11 @@ The raw reads were used as an input into the standard QIIME2 pipeline to output 
 3. Denoise the reads and assemble into ASVs (QIIME2)
 4. Export the reads (dna-sequences.fa) and ASV table (biom). (QIIME2)
 5. Analyse reads with decontam.
-6. Pull non contaminant reads (real sequences) from the dna-sequences.fa using the ./faSomeRecords using the list of sequences from decontam.
-7. Summarize reads and import into R to characterised their taxonomic classification.
-8. Use ASV and raw read counts and taxonomic classification to make ggplot2 figures. 
+6. Analyse reads with microDecon.
+7. Pull non contaminant reads (real sequences) from the dna-sequences.fa using the ./faSomeRecords using the list of sequences from decontamination programs.
+8. Alpha and beta diversity analysis (QIIME2)
+9. Summarize reads and taxonomic abundance and import into R to characterised their taxonomic classification.
+10. Use ASV and raw read counts and taxonomic classification to make ggplot2 figures. 
 
 
 
