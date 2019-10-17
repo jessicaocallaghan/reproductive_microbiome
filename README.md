@@ -2,7 +2,8 @@
 
 To reanalyse publically available placental sequencing data. 
 
-
+This work has been published in the article 'Re-assessing microbiomes in the low reproductive niche'.
+The link to the paper is here: https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1111/1471-0528.15974
 
 **SRA download**
 
